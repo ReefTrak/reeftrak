@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://formspree.io; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
@@ -32,7 +32,7 @@
             margin-bottom: 5px;
             font-weight: 500;
         }
-        input, textarea, select {
+        input, textarea {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
@@ -75,28 +75,21 @@
     </style>
     <script>
         window.onload = function() {
-            // Get URL parameters
             const urlParams = new URLSearchParams(window.location.search);
             
-            // Auto-fill device info
             if (urlParams.has('device')) {
-                document.querySelector('input[name="device"]').value = urlParams.get('device');
+                document.getElementById('device').value = urlParams.get('device');
             }
             if (urlParams.has('ios')) {
-                document.querySelector('input[name="ios_version"]').value = urlParams.get('ios');
+                document.getElementById('ios_version').value = urlParams.get('ios');
             }
             if (urlParams.has('app')) {
                 let appVersion = urlParams.get('app');
                 if (urlParams.has('build')) {
                     appVersion += ` (${urlParams.get('build')})`;
                 }
-                document.querySelector('input[name="app_version"]').value = appVersion;
+                document.getElementById('app_version').value = appVersion;
             }
-            
-            // Make auto-filled fields readonly
-            document.querySelector('input[name="device"]').readOnly = true;
-            document.querySelector('input[name="ios_version"]').readOnly = true;
-            document.querySelector('input[name="app_version"]').readOnly = true;
         };
     </script>
 </head>
@@ -104,14 +97,14 @@
     <div class="support-form">
         <h1>Reef Trak Support</h1>
         <p>Need help with Reef Trak? Fill out this form and we'll get back to you as soon as possible.</p>
-        <form action="mailto:support@reeftrak.com" method="POST" enctype="text/plain">
+        <form action="https://formspree.io/f/mgvokvgz" method="POST">
             <div class="form-group">
                 <label>Name <span class="required">*</span></label>
                 <input type="text" name="name" required>
             </div>
             <div class="form-group">
                 <label>Email <span class="required">*</span></label>
-                <input type="email" name="email" required>
+                <input type="email" name="_replyto" required>
             </div>
             <div class="form-group">
                 <label>Subject <span class="required">*</span></label>
@@ -119,20 +112,22 @@
             </div>
             <div class="form-group">
                 <label>Description of Issue <span class="required">*</span></label>
-                <textarea name="description" required></textarea>
+                <textarea name="message" required></textarea>
             </div>
             <div class="form-group">
                 <label>Device Model</label>
-                <input type="text" name="device" class="auto-filled">
+                <input type="text" name="device" id="device" class="auto-filled" readonly>
             </div>
             <div class="form-group">
                 <label>iOS Version</label>
-                <input type="text" name="ios_version" class="auto-filled">
+                <input type="text" name="ios_version" id="ios_version" class="auto-filled" readonly>
             </div>
             <div class="form-group">
                 <label>App Version</label>
-                <input type="text" name="app_version" class="auto-filled">
+                <input type="text" name="app_version" id="app_version" class="auto-filled" readonly>
             </div>
+            <input type="hidden" name="_subject" value="Reef Trak Support Request">
+            <input type="hidden" name="_next" value="https://www.reeftrak.com/support-thank-you.html">
             <button type="submit">Submit Support Request</button>
         </form>
     </div>
